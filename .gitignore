@@ -1,0 +1,17 @@
+# 源文件目录（GitHub Pages 部署使用 docs/，此目录无需追踪）
+life-website/
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Claude Code
+.claude/
+
+# 编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

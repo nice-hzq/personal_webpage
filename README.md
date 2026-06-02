@@ -29,7 +29,27 @@ https://<你的用户名>.github.io/<仓库名>/
 - `docs/assets/css/style.css`：样式文件
 - `docs/assets/js/main.js`：页面交互脚本
 - `docs/assets/images/`：图片资源目录
+- `docs/assets/audio/`：音频资源目录
 - `docs/.nojekyll`：避免 GitHub Pages 通过 Jekyll 处理内容
+
+## 图片与音频资源
+
+### 小瞬间图片（"生活里的那些小瞬间"模块）
+- `assets/images/moment-01.jpg`
+- `assets/images/moment-02.jpg`
+- `assets/images/moment-03.jpg`
+- `assets/images/moment-04.jpg`
+
+### 经典句图片（"朋友与生活经典句"模块）
+- `assets/images/quote-01.jpg`
+- `assets/images/quote-02.jpg`
+- `assets/images/quote-03.jpg`
+- `assets/images/quote-04.jpg`
+
+### BGM 背景音乐
+- `assets/audio/bgm.mp3`
+- 浏览器限制自动播放，需要用户点击右下角音乐按钮后才能播放。
+- 播放状态会通过 localStorage 记录，但不强制自动打开音乐。
 
 ## 后续修改建议
 

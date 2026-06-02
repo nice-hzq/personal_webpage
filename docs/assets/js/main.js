@@ -1,27 +1,27 @@
 const photos = [
   {
     src: "assets/images/trip-01.jpg",
-    title: "和朋友的周末出行",
-    date: "2025-05-01",
-    desc: "天气很好，大家一起出去走了很久，也拍了很多照片。",
+    title: "长沙行",
+    date: "2023-05-01",
+    desc: "恰同学少年，风华正茂",
     category: "朋友",
     tag: "朋友 / 出游"
   },
   {
     src: "assets/images/trip-02.jpg",
-    title: "海边的一天",
-    date: "2025-07-18",
-    desc: "吹海风、看日落，是很放松的一天。",
+    title: "西安行",
+    date: "2024-10-01",
+    desc: "六合之内，莫非王土；率土之滨，莫非王臣。",
     category: "旅行",
-    tag: "旅行 / 海边"
+    tag: "旅行 / 兵马俑"
   },
   {
     src: "assets/images/trip-03.jpg",
-    title: "校园里的合照",
-    date: "2025-09-10",
-    desc: "普通的一天，但和朋友在一起就很开心。",
-    category: "校园",
-    tag: "校园 / 日常"
+    title: "厦门游",
+    date: "2026-05-01",
+    desc: "一国两制，海峡两岸，统一大业，指日可待！！！",
+    category: "海边",
+    tag: "海边 / 日常"
   },
   {
     src: "assets/images/trip-04.jpg",
@@ -52,17 +52,17 @@ const photos = [
 const categories = ["全部", "朋友", "旅行", "校园", "日常", "美食"];
 
 const timelineEvents = [
-  { date: "2025.04", text: "第一次和朋友一起短途旅行" },
-  { date: "2025.06", text: "一起拍了毕业季照片" },
-  { date: "2025.08", text: "去海边看了一次日落" },
-  { date: "2025.10", text: "周末聚餐，聊了很多近况" }
+  { date: "2025.04", text: "第一次和朋友一起短途旅行", image: "assets/images/moment-01.jpg" },
+  { date: "2025.06", text: "一起拍了毕业季照片", image: "assets/images/moment-02.jpg" },
+  { date: "2025.08", text: "去海边看了一次日落", image: "assets/images/moment-03.jpg" },
+  { date: "2025.10", text: "周末聚餐，聊了很多近况", image: "assets/images/moment-04.jpg" }
 ];
 
 const moments = [
-  { emoji: "🍜", title: "一起吃过的饭", desc: "有些饭局不只是吃饭，也是很多开心记忆的开始。" },
-  { emoji: "📸", title: "一起拍过的照片", desc: "每一张合照都记录了我们当时的笑容和氛围。" },
-  { emoji: "🎒", title: "一起走过的路", desc: "一段路上的风景，会因为同行的人而更值得纪念。" },
-  { emoji: "🌙", title: "一起聊过的晚上", desc: "那种轻松的夜晚，总会在记忆里留下温柔的余温。" }
+  { image: "assets/images/quote-01.jpg", title: "涌池牛逼", desc: "有些牛逼是发自内心的", source: "—— 涌池" },
+  { image: "assets/images/quote-02.jpg", title: "一起拍过的照片", desc: "每一张合照都记录了我们当时的笑容和氛围。", source: "—— 摄影日常" },
+  { image: "assets/images/quote-03.jpg", title: "一起走过的路", desc: "一段路上的风景，会因为同行的人而更值得纪念。", source: "—— 旅行随记" },
+  { image: "assets/images/quote-04.jpg", title: "一起聊过的晚上", desc: "那种轻松的夜晚，总会在记忆里留下温柔的余温。", source: "—— 深夜聊天" }
 ];
 
 const commentKey = "lifeMemoryComments";
@@ -144,9 +144,18 @@ function renderTimeline() {
     const entry = document.createElement("div");
     entry.className = "timeline-item";
     entry.innerHTML = `
-      <time>${item.date}</time>
-      <p>${item.text}</p>
+      <img class="timeline-img" src="${item.image}" alt="${item.text}" loading="lazy" />
+      <div class="timeline-body">
+        <time>${item.date}</time>
+        <p>${item.text}</p>
+      </div>
     `;
+
+    const img = entry.querySelector(".timeline-img");
+    img.addEventListener("error", () => {
+      img.src = createPlaceholderImage();
+    });
+
     timelineList.appendChild(entry);
   });
 }
@@ -157,10 +166,19 @@ function renderMoments() {
     const card = document.createElement("article");
     card.className = "moment-card";
     card.innerHTML = `
-      <div class="emoji">${item.emoji}</div>
-      <h3>${item.title}</h3>
-      <p>${item.desc}</p>
+      <img class="moment-img" src="${item.image}" alt="${item.title}" loading="lazy" />
+      <div class="moment-body">
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+        <p class="moment-source">${item.source}</p>
+      </div>
     `;
+
+    const img = card.querySelector(".moment-img");
+    img.addEventListener("error", () => {
+      img.src = createPlaceholderImage();
+    });
+
     momentCards.appendChild(card);
   });
 }
@@ -264,6 +282,53 @@ function initialize() {
   modalImage.addEventListener("error", () => {
     modalImage.src = createPlaceholderImage();
   });
+
+  setupBgm();
+}
+
+function setupBgm() {
+  const bgmAudio = document.getElementById("bgm-audio");
+  const bgmBtn = document.getElementById("bgm-btn");
+  if (!bgmAudio || !bgmBtn) return;
+
+  let isBgmPlaying = false;
+
+  function updateBgmButton() {
+    if (isBgmPlaying) {
+      bgmBtn.classList.add("playing");
+      bgmBtn.setAttribute("title", "暂停音乐");
+      bgmBtn.setAttribute("aria-label", "暂停背景音乐");
+    } else {
+      bgmBtn.classList.remove("playing");
+      bgmBtn.setAttribute("title", "播放音乐");
+      bgmBtn.setAttribute("aria-label", "播放背景音乐");
+    }
+  }
+
+  bgmBtn.addEventListener("click", () => {
+    if (isBgmPlaying) {
+      bgmAudio.pause();
+      isBgmPlaying = false;
+      updateBgmButton();
+    } else {
+      bgmAudio.volume = 0.35;
+      bgmAudio.play().then(() => {
+        isBgmPlaying = true;
+        updateBgmButton();
+        localStorage.setItem("bgmWasPlaying", "true");
+      }).catch((err) => {
+        console.warn("BGM 播放失败，请检查音频文件是否存在：", err);
+      });
+    }
+  });
+
+  bgmAudio.addEventListener("error", () => {
+    console.warn("BGM 音频文件加载失败，请检查 assets/audio/bgm.mp3 是否存在。");
+  });
+
+  if (localStorage.getItem("bgmWasPlaying") === "true") {
+    bgmBtn.setAttribute("title", "点击继续播放音乐");
+  }
 }
 
 initialize();

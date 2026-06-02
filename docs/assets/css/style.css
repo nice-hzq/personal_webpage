@@ -298,6 +298,10 @@ a {
 .timeline-item {
   position: relative;
   margin-bottom: 34px;
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(74, 62, 52, 0.06);
+  border: 1px solid var(--border);
 }
 
 .timeline-item:last-child {
@@ -308,12 +312,26 @@ a {
   content: "";
   position: absolute;
   left: -13px;
-  top: 4px;
+  top: 22px;
   width: 14px;
   height: 14px;
   background: var(--accent);
   border-radius: 50%;
   border: 3px solid var(--surface);
+  z-index: 2;
+}
+
+.timeline-item .timeline-img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px 20px 0 0;
+  background: var(--soft);
+}
+
+.timeline-item .timeline-body {
+  padding: 20px;
 }
 
 .timeline-item time {
@@ -337,14 +355,26 @@ a {
 .moment-card {
   background: var(--surface);
   border-radius: 24px;
-  padding: 24px;
+  overflow: hidden;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
+  transition: transform 0.25s ease;
 }
 
-.moment-card .emoji {
-  font-size: 1.9rem;
-  margin-bottom: 16px;
+.moment-card:hover {
+  transform: translateY(-3px);
+}
+
+.moment-card .moment-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  background: var(--soft);
+}
+
+.moment-card .moment-body {
+  padding: 24px;
 }
 
 .moment-card h3 {
@@ -355,6 +385,12 @@ a {
 .moment-card p {
   margin: 0;
   color: var(--muted);
+}
+
+.moment-card .moment-source {
+  margin-top: 12px;
+  color: var(--accent-dark);
+  font-size: 0.95rem;
 }
 
 .message-panel {
@@ -514,6 +550,42 @@ a {
   font-size: 0.95rem;
 }
 
+.bgm-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 40;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(217, 156, 106, 0.35);
+  transition: transform 0.25s ease, background 0.25s ease;
+  line-height: 1;
+}
+
+.bgm-btn:hover {
+  transform: scale(1.1);
+  background: var(--accent-dark);
+}
+
+.bgm-btn.playing {
+  background: var(--accent-dark);
+  animation: bgmPulse 2s ease-in-out infinite;
+}
+
+@keyframes bgmPulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(217, 156, 106, 0.35); }
+  50% { box-shadow: 0 8px 32px rgba(217, 156, 106, 0.55); }
+}
+
 @media (max-width: 980px) {
   .about-grid,
   .message-panel,
@@ -555,9 +627,20 @@ a {
 
   .timeline-item::before {
     left: -10px;
+    top: 18px;
+    width: 12px;
+    height: 12px;
   }
 
   .filter-bar {
     justify-content: flex-start;
+  }
+
+  .bgm-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    font-size: 1.1rem;
   }
 }
